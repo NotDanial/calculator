@@ -41,6 +41,7 @@ public class Main {
             return;
         }
 
+        if (x > 10 || y >10 || x <1 || y<1) { new CalcException("Переменная имеет недопустимое значение"); return;}
         operator = taskArr[1].charAt(0);
 
 
