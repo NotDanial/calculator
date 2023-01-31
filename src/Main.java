@@ -1,46 +1,67 @@
+
 import java.util.Scanner;
 
-import static java.lang.String.*;
+class CalcException extends Exception{
+    public CalcException (String s){
+        System.out.println("throws Exception");
+    }
+
+}
 
 public class Main {
 
-
     public static void main(String[] args) {
         Scanner reader = new Scanner(System.in);
-        System.out.println("Enter a task: ");
         String task = reader.nextLine();
         reader.close();
-        calc(task);
+        try{
+            calc(task);
+        } catch (CalcException s) {
+
+        }
     }
 
-    public static void calc(String input) {
+
+    public static void calc(String input) throws CalcException {
         String task = input;
-        char[] taskArr = task.toCharArray();
-        String x = "";
-        String y = "";
-        String operator ="";
-        for (int i =0; i < taskArr.length ; i++){
-            if (taskArr[i] == '+' || taskArr[i] == '-' || taskArr[i] == '*'|| taskArr[i] == '/') {operator += taskArr[i];}
-            else if (operator == "") {if(taskArr[i]!=' '){x += taskArr[i];}} else {if(taskArr[i]!=' '){y += taskArr[i];}}
-        }
+        String[] taskArr = task.split(" ");
 
-        if (operator.length() != 1 ) {System.out.println("Оператор введен неверно!");return;}
+        if (taskArr.length!=3){new CalcException("Уравнение введенно неверно");return;}
 
-        int xI = 0; int yI = 0;
+        int result = 0;
+        int x = 0,y = 0;
+        char operator = ' ';
 
         try{
-            xI = Integer.parseInt(x);
-            yI = Integer.parseInt(y);
-            if (xI > 10){System.out.println("Переменная введена неверно");return;}
-            if (yI > 10){System.out.println("Переменная введена неверно");return;}
-        } catch (java.lang.NumberFormatException e){System.out.println("Неверный формат переменной/ых");return;}
+            x = Integer.parseInt(taskArr[0]);
+            y = Integer.parseInt(taskArr[2]);
+        }
+        catch (NumberFormatException e){
+            new CalcException("Переменные введены неверно");
+            return;
+        }
+
+        operator = taskArr[1].charAt(0);
 
 
-        if (operator.equals("+")){System.out.println(xI + yI);return;}
-        else if (operator.equals("-")){System.out.println(xI - yI);return;}
-        else if (operator.equals("/")){System.out.println(xI / yI);return;}
-        else if (operator.equals("*")){System.out.println(xI * yI);return;} else {System.out.println("Оператор введен неверно!");return;}
-
+        switch (operator){
+            case('+'):
+                result = x + y;
+                break;
+            case('-'):
+                result = x - y;
+                break;
+            case('*'):
+                result = x * y;
+                break;
+            case('/'):
+                result = x / y;
+                break;
+            default:
+                new CalcException("Оператор введен неверно");
+                return;
+            }
+        System.out.println(result);
     }
 }
 
