@@ -1,9 +1,11 @@
 import java.util.Scanner;
 
 class CalcException extends Exception{
-    public String  CalcException (String s){
-        s = "throws Exception";
-        return s;
+    static String error = " ";
+    String exc = "throws Exception";
+    public CalcException (String s){
+        error = s;
+        System.out.println(exc);
     }
 
 }
@@ -17,17 +19,18 @@ public class Main {
         try{
             System.out.println(calc(task));
         } catch (CalcException s) {
-
+            /*  В случае нужды вывода описания ошибки - убрать комментирование
+            System.out.println(CalcException.error);*/
         }
+
     }
 
 
     public static String calc(String input) throws CalcException {
         String task = input;
         String[] taskArr = task.split(" ");
-        String error = " ";
 
-        if (taskArr.length!=3){new CalcException();return error = "throws Exception";}
+        if (task.length()<5 || taskArr.length>7){throw new CalcException("Уравнение введенно неверно");}
 
         int result = 0;
         int x = 0,y = 0;
@@ -38,12 +41,12 @@ public class Main {
             y = Integer.parseInt(taskArr[2]);
         }
         catch (NumberFormatException e){
-            new CalcException();return error = "throws Exception";
+            throw new CalcException("Переменные введены неверно");
         }
 
-        if (x > 10 || y >10 || x <1 || y<1) {new CalcException();return error = "throws Exception";}
-        operator = taskArr[1];
+        if (x > 10 || y >10 || x <1 || y<1) {throw new CalcException("Переменные могут принимать значение в области [1,10]");}
 
+        operator = taskArr[1];
 
         switch (operator){
             case("+"):
@@ -59,7 +62,7 @@ public class Main {
                 result = x / y;
                 break;
             default:
-                new CalcException();return error = "throws Exception";
+                throw new CalcException("Оператор введен некорректно (+,*,/,-)");
         }
         return String.valueOf(result);
     }
