@@ -30,7 +30,7 @@ public class Main {
         String task = input;
         String[] taskArr = task.split(" ");
         /*Если уравнение содержит больше двух переменных,или в случае наличия одной переменной*/
-        if (task.length()<5 || taskArr.length>7){throw new CalcException("Уравнение введенно неверно");}
+        if (taskArr.length != 3 || (task.length()<5 || task.length()>7)){throw new CalcException("Уравнение введенно неверно");}
 
         int result = 0;
         int x = 0,y = 0;
