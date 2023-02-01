@@ -1,9 +1,9 @@
-
 import java.util.Scanner;
 
 class CalcException extends Exception{
-    public CalcException (String s){
-        System.out.println("throws Exception");
+    public String  CalcException (String s){
+        s = "throws Exception";
+        return s;
     }
 
 }
@@ -15,54 +15,52 @@ public class Main {
         String task = reader.nextLine();
         reader.close();
         try{
-            calc(task);
+            System.out.println(calc(task));
         } catch (CalcException s) {
 
         }
     }
 
 
-    public static void calc(String input) throws CalcException {
+    public static String calc(String input) throws CalcException {
         String task = input;
         String[] taskArr = task.split(" ");
+        String error = " ";
 
-        if (taskArr.length!=3){new CalcException("Уравнение введенно неверно");return;}
+        if (taskArr.length!=3){new CalcException();return error = "throws Exception";}
 
         int result = 0;
         int x = 0,y = 0;
-        char operator = ' ';
+        String operator = " ";
 
         try{
             x = Integer.parseInt(taskArr[0]);
             y = Integer.parseInt(taskArr[2]);
         }
         catch (NumberFormatException e){
-            new CalcException("Переменные введены неверно");
-            return;
+            new CalcException();return error = "throws Exception";
         }
 
-        if (x > 10 || y >10 || x <1 || y<1) { new CalcException("Переменная имеет недопустимое значение"); return;}
-        operator = taskArr[1].charAt(0);
+        if (x > 10 || y >10 || x <1 || y<1) {new CalcException();return error = "throws Exception";}
+        operator = taskArr[1];
 
 
         switch (operator){
-            case('+'):
+            case("+"):
                 result = x + y;
                 break;
-            case('-'):
+            case("-"):
                 result = x - y;
                 break;
-            case('*'):
+            case("*"):
                 result = x * y;
                 break;
-            case('/'):
+            case("/"):
                 result = x / y;
                 break;
             default:
-                new CalcException("Оператор введен неверно");
-                return;
-            }
-        System.out.println(result);
+                new CalcException();return error = "throws Exception";
+        }
+        return String.valueOf(result);
     }
 }
-
